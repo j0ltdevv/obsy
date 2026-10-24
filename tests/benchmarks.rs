@@ -44,16 +44,12 @@ fn générer_vault(racine: &Path, n: usize) {
             let voisin = (i + k * 7) % n;
             corps.push_str(&format!("- Voir [[note_{voisin}]]\n"));
         }
-        fs::write(racine.join(dossier).join(format!("note_{i}.md")), corps)
-            .expect("écriture note");
+        fs::write(racine.join(dossier).join(format!("note_{i}.md")), corps).expect("écriture note");
     }
 }
 
 fn vault_temporaire(nom: &str, n: usize) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!(
-        "obsy-bench-{nom}-{}",
-        std::process::id()
-    ));
+    let dir = std::env::temp_dir().join(format!("obsy-bench-{nom}-{}", std::process::id()));
     let _ = fs::remove_dir_all(&dir);
     générer_vault(&dir, n);
     dir
@@ -127,8 +123,11 @@ fn benchmarks_vault_5000() {
 
     {
         let t0 = Instant::now();
-        let résultats = query_notes(&notes, "SELECT file.name, priority FROM #bench SORT priority DESC LIMIT 50")
-            .expect("dql");
+        let résultats = query_notes(
+            &notes,
+            "SELECT file.name, priority FROM #bench SORT priority DESC LIMIT 50",
+        )
+        .expect("dql");
         println!(
             "Dataview SELECT ({} résultats) : {:?}",
             résultats.len(),
