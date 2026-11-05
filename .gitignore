@@ -13,3 +13,4 @@ demonstrations/obsidian-rea/logs-electron-harness.stdout
 # Dépendances locales éventuelles (outillage du mode compat) : jamais commitées.
 node_modules/
 package-lock.json
+graphify-out/
